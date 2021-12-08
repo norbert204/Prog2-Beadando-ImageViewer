@@ -9,7 +9,7 @@ class HtmlDeleter {
                 deleteHtmlFiles(file);
             }
             else {
-                if (Main.getExtension(file).equals("html")) {
+                if (FileUtils.getExtension(file).equals("html")) {
                     if (file.delete()) {
                         System.out.printf("Fájl törölve: %s\n", file.getPath());
                     }

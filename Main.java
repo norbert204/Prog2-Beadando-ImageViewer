@@ -1,10 +1,6 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 class Main {
-
-    public static List<String> supportedExtensions = List.of("jpg", "png", "jpeg", "gif", "bmp");
 
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -26,36 +22,8 @@ class Main {
                 HtmlDeleter.deleteHtmlFiles(root);
             }
             else { 
-                handleDirectory(root, 0);
+                HtmlBuilder.createHtmlFiles(root);
             }
-        }
-    }
-
-    //  TODO: refactor this
-    public static void handleDirectory(File dir, int level) {
-        List<String> dirs = new ArrayList<>();
-        List<String> files = new ArrayList<>();
-
-        for (File f : dir.listFiles()) {
-            if (f.isDirectory()) {
-                dirs.add(f.getName());
-                
-                handleDirectory(f, level + 1);
-            }
-            else { 
-                if (supportedExtensions.contains(getExtension(f))) {
-                    files.add(f.getName());
-                }
-            }   
-        }
-
-        HtmlBuilder.buildIndexPage(dir.getPath(), dirs, files, level);
-
-        for (int i = 0; i < files.size(); i++) {
-            String prev = (i == 0) ? "" : getHtmlFileFromImage(files.get(i - 1));
-            String next = (i == files.size() - 1) ? "" : getHtmlFileFromImage(files.get(i + 1)); 
-
-            HtmlBuilder.buildImagePage(getHtmlFileFromImage(dir.getPath() + File.separator + files.get(i)), files.get(i), prev, next, level);
         }
     }
 
@@ -66,17 +34,13 @@ class Main {
         return sb.toString();
     }
 
-    public static String getExtension(File file) {
-        String[] splitFilename = file.getName().split("\\.");
-        String extension = splitFilename[splitFilename.length - 1];
-
-        return extension;
-    }
-
     public static void printMan() {
-        System.out.println("PARAMETERS");
-        System.out.println("\t--help/-help\t\tPrinting out this page");
-        System.out.println("\t<directory>\t\tCreating the HTML files in the specified directory");
-        System.out.println("\t<directory> [-d/--d]\tDeleting the already existing HTML files in the specified directory");
+        System.out.println("\nHASZNÁLAT");
+        System.out.println("\tjava -jar ImageViewer.jar <paraméterek>");
+
+        System.out.println("\nPARAMÉTEREK");
+        System.out.println("\t--help/-h\t\tKiírja ezt a segítséget");
+        System.out.println("\t<könyvtár>\t\tLétrehozza a HTML fájlokat a megadott könyvtárban");
+        System.out.println("\t<könyvtár> [-d/--d]\tTörli a már meglévő HTML fájlokat a megadott könyvtárban");
     }
 }
