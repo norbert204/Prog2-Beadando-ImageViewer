@@ -7,18 +7,28 @@ class Main {
     public static List<String> supportedExtensions = List.of("jpg", "png", "jpeg", "gif", "bmp");
 
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length < 1) {
             System.err.println("Hiba! Adjon meg paraméterként egy könyvtárat!");
             System.exit(1);
         }
 
-        File root = new File(args[0]);
-        if (!root.isDirectory()) {
-            System.err.println("Hiba! Könyvtárat adjon meg!");
-            System.exit(1);
+        if (args[0].equals("--help") || args[0].equals("-h")) {
+            printMan();
         }
+        else {
+            File root = new File(args[0]);
+            if (!root.isDirectory()) {
+                System.err.println("Hiba! Könyvtárat adjon meg!");
+                System.exit(2);
+            }
 
-        handleDirectory(root, 0);
+            if (args.length == 2 && (args[1].equals("-d") || args[1].equals("--delete"))) {
+                HtmlDeleter.deleteHtmlFiles(root);
+            }
+            else { 
+                handleDirectory(root, 0);
+            }
+        }
     }
 
     //  TODO: refactor this
@@ -32,9 +42,10 @@ class Main {
                 
                 handleDirectory(f, level + 1);
             }
-            //  TODO: ugh this looks sooooo ugly
-            else if (supportedExtensions.contains(f.getName().split("\\.")[f.getName().split("\\.").length - 1])) {
-                files.add(f.getName());
+            else { 
+                if (supportedExtensions.contains(getExtension(f))) {
+                    files.add(f.getName());
+                }
             }   
         }
 
@@ -53,5 +64,19 @@ class Main {
         sb.replace(image.lastIndexOf('.') + 1, image.length(), "html");
 
         return sb.toString();
+    }
+
+    public static String getExtension(File file) {
+        String[] splitFilename = file.getName().split("\\.");
+        String extension = splitFilename[splitFilename.length - 1];
+
+        return extension;
+    }
+
+    public static void printMan() {
+        System.out.println("PARAMETERS");
+        System.out.println("\t--help/-help\t\tPrinting out this page");
+        System.out.println("\t<directory>\t\tCreating the HTML files in the specified directory");
+        System.out.println("\t<directory> [-d/--d]\tDeleting the already existing HTML files in the specified directory");
     }
 }

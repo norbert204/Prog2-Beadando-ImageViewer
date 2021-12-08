@@ -9,12 +9,21 @@ public class HtmlBuilder {
 
     private static PrintWriter writer;
 
+    public static void createHtmlFiles(File dir) {
+        createHtmlFiles(dir, 0);
+    }
+
+    private static void createHtmlFiles(File dir, int level) {
+
+    }
+
     public static void buildIndexPage(String path, List<String> dirs, List<String> images, int level) {
         buildBase(path + File.separator + "index.html", level);
 
         writer.println("" + 
                 "\t\t<h2>Directories</h2>\n" +
                 "\t\t<ul>");
+
         if (level != 0) {
             writer.println(String.format("\t\t\t<li><a href=\"%s\">%s</a></li>", "../index.html", "<<"));
         }
