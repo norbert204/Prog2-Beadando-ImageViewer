@@ -28,10 +28,7 @@ class Main {
     }
 
     public static String getHtmlFileFromImage(String image) {
-        StringBuilder sb = new StringBuilder(image);
-        sb.replace(image.lastIndexOf('.') + 1, image.length(), "html");
-
-        return sb.toString();
+        return image.substring(0, image.lastIndexOf('.')) + ".html";
     }
 
     public static void printMan() {

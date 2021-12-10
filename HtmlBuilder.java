@@ -73,20 +73,23 @@ public class HtmlBuilder {
                     "\t\t<ul>");
 
             if (level != 0) {
-                writer.println(String.format("\t\t\t<li><a href=\"%s\">%s</a></li>", "../index.html", "<<"));
+                writer.printf("\t\t\t<li><a href=\"%s\">%s</a></li>\n", "../index.html", "<<");
             }
             for (String s : dirs) {
-                writer.println(String.format("\t\t\t<li><a href=\"%s\">%s</a></li>", s + "/index.html", s));
+                writer.printf("\t\t\t<li><a href=\"%s\">%s</a></li>\n", s + "/index.html", s);
             }
+
             writer.println("\t\t</ul>");
 
             if (images.size() > 0) {
                 writer.println("" + 
                         "\t\t<h2>Images</h2>\n" + 
                         "\t\t<ul>");
+
                 for (String s : images) {
-                    writer.println(String.format("\t\t\t<li><a href=\"%s\">%s</a></li>", Main.getHtmlFileFromImage(s), s));
+                    writer.printf("\t\t\t<li><a href=\"%s\">%s</a></li>\n", Main.getHtmlFileFromImage(s), s);
                 }
+                
                 writer.println("\t\t</ul>");
             }
 
@@ -96,7 +99,7 @@ public class HtmlBuilder {
 
     public static void buildImagePage(String path, String image, String prev, String next, int level) {
         if (createFile(path, level)) {
-            writer.println("\t\t<a href=\"../index.html\">^^</a><br />");
+            writer.println("\t\t<a href=\"index.html\">^^</a><br />");
             
             StringBuilder sb = new StringBuilder("\t\t");
             if (!prev.isEmpty()) {
