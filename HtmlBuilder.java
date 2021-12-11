@@ -42,6 +42,8 @@ public class HtmlBuilder {
 
             buildImagePage(Main.getHtmlFileFromImage(dir.getPath() + File.separator + files.get(i)), files.get(i), prev, next, level);
         }
+
+        System.out.printf("Mappa feldolgozva: %s\n", dir.getPath());
     }
 
     private static boolean createFile(String path, int level) {
@@ -55,7 +57,8 @@ public class HtmlBuilder {
                     "\t\t<title>ImageViewer</title>\n" +
                     "\t</head>\n" +
                     "\t<body>\n" +
-                    "\t\t<a href=\"" + "../".repeat(level) + "index.html\"><h1>Start page</h1></a>");
+                    "\t\t<a href=\"" + "../".repeat(level) + "index.html\"><h1>Start page</h1></a>" +
+                    "\t\t<hr />");
 
             return true;
         }
@@ -83,6 +86,7 @@ public class HtmlBuilder {
 
             if (images.size() > 0) {
                 writer.println("" + 
+                        "\t\t<hr />\n" +
                         "\t\t<h2>Images</h2>\n" + 
                         "\t\t<ul>");
 
@@ -105,6 +109,7 @@ public class HtmlBuilder {
             if (!prev.isEmpty()) {
                 sb.append(String.format("<a href=\"%s\"><<</a>", prev));
             }
+            sb.append(" ");
             if (!next.isEmpty()) {
                 sb.append(String.format("<a href=\"%s\">>></a>", next));
             }
