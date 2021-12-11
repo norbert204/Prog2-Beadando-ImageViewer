@@ -1,7 +1,4 @@
 build:
-	find . -type f -name '*.html' -exec rm {} \;
 	javac Main.java
-	java Main images
-
-removeHtmls:
-	find . -type f -name '*.html' -exec rm {} \;
+	jar cvf ImageViewer.jar *.class
+	jar --update --verbose --file ImageViewer.jar --main-class Main
