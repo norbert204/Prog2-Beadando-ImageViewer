@@ -27,10 +27,6 @@ class Main {
         }
     }
 
-    public static String getHtmlFileFromImage(String image) {
-        return image.substring(0, image.lastIndexOf('.')) + ".html";
-    }
-
     public static void printMan() {
         System.out.println("\nHASZNÁLAT");
         System.out.println("\tjava -jar ImageViewer.jar <paraméterek>");

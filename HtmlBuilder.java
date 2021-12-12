@@ -37,10 +37,10 @@ public class HtmlBuilder {
         buildIndexPage(dir.getPath(), dirs, files, level);
 
         for (int i = 0; i < files.size(); i++) {
-            String prev = (i == 0) ? "" : Main.getHtmlFileFromImage(files.get(i - 1));
-            String next = (i == files.size() - 1) ? "" : Main.getHtmlFileFromImage(files.get(i + 1)); 
+            String prev = (i == 0) ? "" : FileUtils.fileWithOtherExtension(files.get(i - 1), "html");
+            String next = (i == files.size() - 1) ? "" : FileUtils.fileWithOtherExtension(files.get(i + 1), "html"); 
 
-            buildImagePage(Main.getHtmlFileFromImage(dir.getPath() + File.separator + files.get(i)), files.get(i), prev, next, level);
+            buildImagePage(FileUtils.fileWithOtherExtension(dir.getPath() + File.separator + files.get(i), "html"), files.get(i), prev, next, level);
         }
 
         System.out.printf("Mappa feldolgozva: %s\n", dir.getPath());
@@ -55,6 +55,7 @@ public class HtmlBuilder {
                     "<html>\n" +
                     "\t<head>\n" +
                     "\t\t<title>ImageViewer</title>\n" +
+                    "\t\t<meta charset=\"UTF-8\" />\n" +
                     "\t</head>\n" +
                     "\t<body>\n" +
                     "\t\t<a href=\"" + "../".repeat(level) + "index.html\"><h1>Start page</h1></a>" +
@@ -69,7 +70,7 @@ public class HtmlBuilder {
         }
     }
 
-    public static void buildIndexPage(String path, List<String> dirs, List<String> images, int level) {
+    private static void buildIndexPage(String path, List<String> dirs, List<String> images, int level) {
         if (createFile(path + File.separator + "index.html", level)) {
             writer.println("" + 
                     "\t\t<h2>Directories</h2>\n" +
@@ -91,7 +92,7 @@ public class HtmlBuilder {
                         "\t\t<ul>");
 
                 for (String s : images) {
-                    writer.printf("\t\t\t<li><a href=\"%s\">%s</a></li>\n", Main.getHtmlFileFromImage(s), s);
+                    writer.printf("\t\t\t<li><a href=\"%s\">%s</a></li>\n", FileUtils.fileWithOtherExtension(s, "html"), s);
                 }
                 
                 writer.println("\t\t</ul>");
@@ -101,7 +102,7 @@ public class HtmlBuilder {
         }
     }
 
-    public static void buildImagePage(String path, String image, String prev, String next, int level) {
+    private static void buildImagePage(String path, String image, String prev, String next, int level) {
         if (createFile(path, level)) {
             writer.println("\t\t<a href=\"index.html\">^^</a><br />");
             

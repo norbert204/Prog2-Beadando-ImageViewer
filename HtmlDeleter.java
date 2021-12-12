@@ -1,6 +1,7 @@
 import java.io.File;
 
 class HtmlDeleter {
+    
     private HtmlDeleter() {}
 
     public static void deleteHtmlFiles(File dir) {
